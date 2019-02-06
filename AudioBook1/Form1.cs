@@ -54,14 +54,11 @@ namespace AudioBook1
         {
             FileName = listViewPdfs.SelectedItems[0].Text;
             PdfReader reader = new PdfReader(FileName);
-
             ConvertPDFtoImage(1);
-
             speech.SetOutputToDefaultAudioDevice();
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
             reader.Close();
-           // speech.SpeakAsync(AllText);
-
+            
         }
         int index = 1;
 
@@ -69,13 +66,16 @@ namespace AudioBook1
         {
             PdfReader reader = new PdfReader(FileName);
             ConvertPDFtoImage(++index);
-            speech.SetOutputToDefaultAudioDevice();
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
             reader.Close();
+
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
+            var current = speech.GetCurrentlySpokenPrompt();
+            if (current != null)
+                speech.SpeakAsyncCancel(current);
             speech.SpeakAsync(AllText);
         }
 
