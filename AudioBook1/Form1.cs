@@ -22,6 +22,7 @@ namespace AudioBook1
         public Form1()
         {
             InitializeComponent();
+            
         }
         public FileInfo Info { get; set; }
         private void listViewPdfs_DragDrop(object sender, DragEventArgs e)
@@ -32,7 +33,6 @@ namespace AudioBook1
             listViewPdfs.Items.Add(Info.FullName);
         }
         public string ImagePath { get; set; }
-
         private void listViewPdfs_DragEnter(object sender, DragEventArgs e)
         {
             listViewPdfs.BackColor = Color.BlueViolet;
@@ -45,7 +45,7 @@ namespace AudioBook1
         {
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
             f.OpenPdf(FileName);
-            f.ImageOptions.Dpi = 200;
+            f.ImageOptions.Dpi = 50;
             pictureBox1.Image = f.ToDrawingImage(page);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
@@ -58,34 +58,56 @@ namespace AudioBook1
             speech.SetOutputToDefaultAudioDevice();
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
             reader.Close();
-            
         }
         int index = 1;
-
         private void buttonNext_Click(object sender, EventArgs e)
         {
             PdfReader reader = new PdfReader(FileName);
             ConvertPDFtoImage(++index);
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
             reader.Close();
-
         }
-
+        public int CountLetter { get; set; }
+        Timer timer = new Timer();
         private void buttonPlay_Click(object sender, EventArgs e)
         {
+            CountLetter = AllText.Length;
+            progressBar1.Maximum = CountLetter;
+            progressBar1.Value = 1;
+            timer.Interval = 100;
+            timer.Tick += Timer_Tick;
+            timer.Start();
             var current = speech.GetCurrentlySpokenPrompt();
             if (current != null)
                 speech.SpeakAsyncCancel(current);
             speech.SpeakAsync(AllText);
         }
-
         private void buttonPre_Click(object sender, EventArgs e)
         {
+            progressBar1.Value = 1;
             PdfReader reader = new PdfReader(FileName);
             ConvertPDFtoImage(--index);
             speech.SetOutputToDefaultAudioDevice();
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
             reader.Close();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            progressBar1.Value += 1;
+            if (progressBar1.Value == CountLetter)
+            {
+                timer.Stop();
+            }
+            else
+            {
+
+            }
         }
     }
 }

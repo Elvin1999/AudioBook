@@ -33,6 +33,7 @@
             this.buttonPre = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,11 +88,23 @@
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(276, 441);
+            this.progressBar1.Maximum = 1000;
+            this.progressBar1.Minimum = 1;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(317, 23);
+            this.progressBar1.Step = 5;
+            this.progressBar1.TabIndex = 3;
+            this.progressBar1.Value = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(695, 490);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.buttonPre);
@@ -99,6 +112,7 @@
             this.Controls.Add(this.listViewPdfs);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -111,6 +125,7 @@
         private System.Windows.Forms.Button buttonPre;
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Button buttonNext;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
