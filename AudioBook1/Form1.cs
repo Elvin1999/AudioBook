@@ -11,6 +11,8 @@ using iTextSharp.text.pdf;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using iTextSharp.text.pdf.parser;
+using System.Speech;
+using System.Speech.Synthesis;
 
 namespace AudioBook1
 {
@@ -46,9 +48,12 @@ namespace AudioBook1
                 sb.Append(PdfTextExtractor.GetTextFromPage(reader, i));
                        
             }
-            AllText = sb.ToString();
-            MessageBox.Show(AllText);
-            reader.Close();
+            SpeechSynthesizer speech = new SpeechSynthesizer();
+            speech.SetOutputToDefaultAudioDevice();
+            
+            AllText = sb.ToString();reader.Close();
+            speech.Speak(AllText);
+            
         }
     }
 }
