@@ -33,12 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bytescout.PDFExtractor, Version=9.3.0.3357, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bytescout.PDFExtractor.9.3.0.3357\lib\net40\Bytescout.PDFExtractor.dll</HintPath>
-    </Reference>
-    <Reference Include="Bytescout.PDFExtractor.OCRExtension, Version=9.3.0.3357, Culture=neutral, PublicKeyToken=f7dd1bd9d40a50eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bytescout.PDFExtractor.9.3.0.3357\lib\net40\Bytescout.PDFExtractor.OCRExtension.dll</HintPath>
-    </Reference>
     <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
     </Reference>
