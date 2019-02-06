@@ -41,39 +41,51 @@ namespace AudioBook1
         public string AllText { get; set; }
         public string FileName { get; set; }
         string jpegdir = System.IO.Path.GetDirectoryName(@"Picture\Picture");
-        public void ConvertPDFtoImage()
+        public void ConvertPDFtoImage(int page)
         {
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
             f.OpenPdf(FileName);
             f.ImageOptions.Dpi = 200;
-
-            //string jpegfile = System.IO.Path.Combine(jpegdir,
-            //    $"{FileName} Page {7}.jpg");
-            pictureBox1.Image = f.ToDrawingImage(20);
-
+            pictureBox1.Image = f.ToDrawingImage(page);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
+        SpeechSynthesizer speech = new SpeechSynthesizer();
         private void listViewPdfs_SelectedIndexChanged(object sender, EventArgs e)
         {
             FileName = listViewPdfs.SelectedItems[0].Text;
             PdfReader reader = new PdfReader(FileName);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 1; i < 2; i++)
-            {
-                sb.Append(PdfTextExtractor.GetTextFromPage(reader, i));
 
-            }
-            SpeechSynthesizer speech = new SpeechSynthesizer();
+            ConvertPDFtoImage(1);
+
             speech.SetOutputToDefaultAudioDevice();
-            AllText = sb.ToString(); reader.Close();
-            MessageBox.Show("Test");
-            ConvertPDFtoImage();
+            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+            reader.Close();
+           // speech.SpeakAsync(AllText);
 
+        }
+        int index = 1;
 
-            //speech.Speak(AllText);
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            PdfReader reader = new PdfReader(FileName);
+            ConvertPDFtoImage(++index);
+            speech.SetOutputToDefaultAudioDevice();
+            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+            reader.Close();
+        }
 
+        private void buttonPlay_Click(object sender, EventArgs e)
+        {
+            speech.SpeakAsync(AllText);
+        }
 
-
+        private void buttonPre_Click(object sender, EventArgs e)
+        {
+            PdfReader reader = new PdfReader(FileName);
+            ConvertPDFtoImage(--index);
+            speech.SetOutputToDefaultAudioDevice();
+            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+            reader.Close();
         }
     }
 }

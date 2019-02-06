@@ -30,6 +30,9 @@
         {
             this.listViewPdfs = new System.Windows.Forms.ListView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonPre = new System.Windows.Forms.Button();
+            this.buttonPlay = new System.Windows.Forms.Button();
+            this.buttonNext = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,11 +57,44 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonPre
+            // 
+            this.buttonPre.Location = new System.Drawing.Point(276, 411);
+            this.buttonPre.Name = "buttonPre";
+            this.buttonPre.Size = new System.Drawing.Size(75, 23);
+            this.buttonPre.TabIndex = 2;
+            this.buttonPre.Text = "Pre";
+            this.buttonPre.UseVisualStyleBackColor = true;
+            this.buttonPre.Click += new System.EventHandler(this.buttonPre_Click);
+            // 
+            // buttonPlay
+            // 
+            this.buttonPlay.Location = new System.Drawing.Point(387, 411);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(75, 23);
+            this.buttonPlay.TabIndex = 2;
+            this.buttonPlay.Text = "Play";
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
+            // 
+            // buttonNext
+            // 
+            this.buttonNext.Location = new System.Drawing.Point(518, 410);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(75, 23);
+            this.buttonNext.TabIndex = 2;
+            this.buttonNext.Text = "Next";
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(695, 490);
+            this.Controls.Add(this.buttonNext);
+            this.Controls.Add(this.buttonPlay);
+            this.Controls.Add(this.buttonPre);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listViewPdfs);
             this.Name = "Form1";
@@ -72,6 +108,9 @@
 
         private System.Windows.Forms.ListView listViewPdfs;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonPre;
+        private System.Windows.Forms.Button buttonPlay;
+        private System.Windows.Forms.Button buttonNext;
     }
 }
 
