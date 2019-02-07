@@ -64,6 +64,8 @@
             // 
             // buttonPre
             // 
+            this.buttonPre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPre.ForeColor = System.Drawing.SystemColors.Control;
             this.buttonPre.Location = new System.Drawing.Point(276, 411);
             this.buttonPre.Name = "buttonPre";
             this.buttonPre.Size = new System.Drawing.Size(75, 23);
@@ -74,6 +76,8 @@
             // 
             // buttonPlay
             // 
+            this.buttonPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlay.ForeColor = System.Drawing.SystemColors.Control;
             this.buttonPlay.Location = new System.Drawing.Point(387, 411);
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(75, 23);
@@ -84,6 +88,8 @@
             // 
             // buttonNext
             // 
+            this.buttonNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonNext.ForeColor = System.Drawing.SystemColors.Control;
             this.buttonNext.Location = new System.Drawing.Point(518, 410);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
@@ -94,6 +100,8 @@
             // 
             // progressBar1
             // 
+            this.progressBar1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.progressBar1.ForeColor = System.Drawing.Color.Maroon;
             this.progressBar1.Location = new System.Drawing.Point(276, 441);
             this.progressBar1.Maximum = 1000;
             this.progressBar1.Minimum = 1;
@@ -114,6 +122,7 @@
             this.Controls.Add(this.buttonPre);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listViewPdfs);
+            this.ForeColor = System.Drawing.SystemColors.Control;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

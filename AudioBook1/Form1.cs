@@ -167,6 +167,43 @@ namespace AudioBook1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Timer t = new Timer();
+            t.Interval = 100;
+            t.Tick += T_Tick;
+            t.Start();
+        }
+        int b = 100;
+        int r = 1;int g = 1;
+        private void T_Tick(object sender, EventArgs e)
+        {
+
+            listViewPdfs.BackColor = Color.FromArgb(r, g, b);
+            this.BackColor= Color.FromArgb(r, g, b);
+            buttonNext.BackColor = Color.FromArgb(r, g, b);
+            buttonPlay.BackColor = Color.FromArgb(r, g, b);
+            buttonPre.BackColor = Color.FromArgb(r, g, b);
+            progressBar1.BackColor = Color.FromArgb(r, g, b);
+            ++r;
+            if (r % 10 == 0)
+            {
+                ++g;
+            }
+            if (g % 10 == 0)
+            {
+                ++b;
+            }
+            if (r == 255)
+            {
+                r = 1;
+            }
+            if (g == 255)
+            {
+                g = 1;
+            }
+            if (b == 255)
+            {
+                b = 1;
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -179,9 +216,6 @@ namespace AudioBook1
             {
                 timer.Stop();
             }
-
-
-
         }
         int currentIndex = 0;
         private void listViewPdfs_MouseUp(object sender, MouseEventArgs e)
