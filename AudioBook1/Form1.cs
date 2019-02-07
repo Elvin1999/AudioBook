@@ -27,9 +27,10 @@ namespace AudioBook1
             ImageList il = new ImageList();
             var image = Properties.Resources.pdfimage;
             il.Images.Add(image);
-            il.ImageSize = new Size(28,28);           
+            il.ImageSize = new Size(28, 28);
             listViewPdfs.LargeImageList = il;
-        }int count = 0;
+        }
+        int count = 0;
         public FileInfo Info { get; set; }
         private void listViewPdfs_DragDrop(object sender, DragEventArgs e)
         {
@@ -38,7 +39,7 @@ namespace AudioBook1
             ListViewItem item = new ListViewItem();
             item.Text = Info.FullName;
             item.ImageIndex = count;
-            listViewPdfs.Items.Add(item);        
+            listViewPdfs.Items.Add(item);
         }
         public string ImagePath { get; set; }
         private void listViewPdfs_DragEnter(object sender, DragEventArgs e)
@@ -58,31 +59,46 @@ namespace AudioBook1
         }
         int currentindex = 0;
         SpeechSynthesizer speech = new SpeechSynthesizer();
+        Point point = new Point();
         private void listViewPdfs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            buttonPlay.Enabled = true;
-             buttonPre.Enabled = true;
-            buttonNext.Enabled = true;
-            var current = speech.GetCurrentlySpokenPrompt();
-            if (current != null)
-                speech.SpeakAsyncCancel(current);
-            FileName = listViewPdfs.SelectedItems[currentindex].Text;
-            PdfReader reader = new PdfReader(FileName);
-            ConvertPDFtoImage(1);
-            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
-            reader.Close();
+            try
+            {
+                timer.Stop();
+                progressBar1.Value = 1;
+                buttonPlay.Enabled = true;
+                buttonPre.Enabled = true;
+                buttonNext.Enabled = true;
+                var current = speech.GetCurrentlySpokenPrompt();
+                if (current != null)
+                    speech.SpeakAsyncCancel(current);
+                FileName = listViewPdfs.SelectedItems[currentindex].Text;
+                PdfReader reader = new PdfReader(FileName);
+                ConvertPDFtoImage(1);
+                AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+                reader.Close();
+            }
+            catch (Exception)
+            {
+        
+            }
+
         }
         int index = 1;
         private void buttonNext_Click(object sender, EventArgs e)
         {
+
             timer.Stop();
             progressBar1.Value = 1;
             PdfReader reader = new PdfReader(FileName);
-            ConvertPDFtoImage(++index);
-            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
-            var current = speech.GetCurrentlySpokenPrompt();
-            if (current != null)
-                speech.SpeakAsyncCancel(current);
+            if (index < reader.NumberOfPages)
+            {
+                ConvertPDFtoImage(++index);
+                AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+                var current = speech.GetCurrentlySpokenPrompt();
+                if (current != null)
+                    speech.SpeakAsyncCancel(current);
+            }
             reader.Close();
         }
         public int CountLetter { get; set; }
@@ -93,7 +109,7 @@ namespace AudioBook1
             if (AllText.Length != 0)
             {
                 CountLetter = AllText.Length;
-               
+
                 if (CountLetter <= 300)
                 {
                     growth = progressBar1.Maximum / CountLetter + 1;
@@ -120,13 +136,18 @@ namespace AudioBook1
         private void buttonPre_Click(object sender, EventArgs e)
         {
             timer.Stop();
+
             progressBar1.Value = 1;
             PdfReader reader = new PdfReader(FileName);
-            ConvertPDFtoImage(--index);
-            AllText = PdfTextExtractor.GetTextFromPage(reader, index);
-            var current = speech.GetCurrentlySpokenPrompt();
-            if (current != null)
-                speech.SpeakAsyncCancel(current);
+            if (index > 0)
+            {
+                ConvertPDFtoImage(--index);
+                AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+                var current = speech.GetCurrentlySpokenPrompt();
+                if (current != null)
+                    speech.SpeakAsyncCancel(current);
+            }
+
             reader.Close();
         }
 
