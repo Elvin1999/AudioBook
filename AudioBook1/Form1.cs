@@ -21,14 +21,24 @@ namespace AudioBook1
         public Form1()
         {
             InitializeComponent();
-
-        }
+            buttonPlay.Enabled = false;
+            buttonPre.Enabled = false;
+            buttonNext.Enabled = false;
+            ImageList il = new ImageList();
+            var image = Properties.Resources.pdfimage;
+            il.Images.Add(image);
+            il.ImageSize = new Size(28,28);           
+            listViewPdfs.LargeImageList = il;
+        }int count = 0;
         public FileInfo Info { get; set; }
         private void listViewPdfs_DragDrop(object sender, DragEventArgs e)
         {
             var mydata = e.Data.GetData(DataFormats.FileDrop) as string[];
             var Info = new FileInfo(mydata[0]);
-            listViewPdfs.Items.Add(Info.FullName);
+            ListViewItem item = new ListViewItem();
+            item.Text = Info.FullName;
+            item.ImageIndex = count;
+            listViewPdfs.Items.Add(item);        
         }
         public string ImagePath { get; set; }
         private void listViewPdfs_DragEnter(object sender, DragEventArgs e)
@@ -46,10 +56,17 @@ namespace AudioBook1
             pictureBox1.Image = f.ToDrawingImage(page);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
+        int currentindex = 0;
         SpeechSynthesizer speech = new SpeechSynthesizer();
         private void listViewPdfs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FileName = listViewPdfs.SelectedItems[0].Text;
+            buttonPlay.Enabled = true;
+             buttonPre.Enabled = true;
+            buttonNext.Enabled = true;
+            var current = speech.GetCurrentlySpokenPrompt();
+            if (current != null)
+                speech.SpeakAsyncCancel(current);
+            FileName = listViewPdfs.SelectedItems[currentindex].Text;
             PdfReader reader = new PdfReader(FileName);
             ConvertPDFtoImage(1);
             AllText = PdfTextExtractor.GetTextFromPage(reader, index);
@@ -73,28 +90,32 @@ namespace AudioBook1
         int growth = 0;
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            CountLetter = AllText.Length;
-            if (CountLetter != 0)
+            if (AllText.Length != 0)
             {
-                growth = progressBar1.Maximum / CountLetter - 1;
+                CountLetter = AllText.Length;
+               
+                if (CountLetter <= 300)
+                {
+                    growth = progressBar1.Maximum / CountLetter + 1;
+                }
+                else
+                {
+                    growth = progressBar1.Maximum / CountLetter - 1;
+                }
+                if (growth <= 0)
+                {
+                    growth = 1;
+                }
+                progressBar1.Maximum = CountLetter;
+                progressBar1.Value = 1;
+                timer.Interval = 150;
+                timer.Tick += Timer_Tick;
+                timer.Start();
+                var current = speech.GetCurrentlySpokenPrompt();
+                if (current != null)
+                    speech.SpeakAsyncCancel(current);
+                speech.SpeakAsync(AllText);
             }
-            if (CountLetter <= 300)
-            {
-                growth = progressBar1.Maximum / CountLetter + 1;
-            }
-            if (growth <= 0)
-            {
-                growth = 1;
-            }
-            progressBar1.Maximum = CountLetter;
-            progressBar1.Value = 1;
-            timer.Interval = 150;
-            timer.Tick += Timer_Tick;
-            timer.Start();
-            var current = speech.GetCurrentlySpokenPrompt();
-            if (current != null)
-                speech.SpeakAsyncCancel(current);
-            speech.SpeakAsync(AllText);
         }
         private void buttonPre_Click(object sender, EventArgs e)
         {
@@ -111,36 +132,6 @@ namespace AudioBook1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Timer timer2 = new Timer();
-            timer2.Interval = 150;
-            timer2.Tick += Timer2_Tick;
-            timer2.Start();
-        }
-        int r = 1, g = 1, b = 1;
-        private void Timer2_Tick(object sender, EventArgs e)
-        {
-
-
-            if (g == 140)
-            {
-                g = 1;
-                ++b;
-                if (b == 140)
-                {
-                    b = 140;
-                    ++r;
-                }
-            }
-            else
-            {
-                ++g;
-            }
-            if (r == 140)
-            {
-                r = 1;g = 1;b = 1;
-            }
-            this.BackColor = Color.FromArgb(r, g, b);
-            listViewPdfs.BackColor = Color.FromArgb(r, g, b);
         }
 
         private void Timer_Tick(object sender, EventArgs e)

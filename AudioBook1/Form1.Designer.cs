@@ -41,6 +41,8 @@
             // 
             this.listViewPdfs.AllowDrop = true;
             this.listViewPdfs.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.listViewPdfs.ForeColor = System.Drawing.SystemColors.Info;
+            this.listViewPdfs.LabelEdit = true;
             this.listViewPdfs.Location = new System.Drawing.Point(23, 23);
             this.listViewPdfs.Name = "listViewPdfs";
             this.listViewPdfs.Size = new System.Drawing.Size(205, 381);
