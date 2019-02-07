@@ -57,13 +57,14 @@ namespace AudioBook1
             pictureBox1.Image = f.ToDrawingImage(page);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-        int currentindex = 0;
+
         SpeechSynthesizer speech = new SpeechSynthesizer();
         Point point = new Point();
         private void listViewPdfs_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
+
                 timer.Stop();
                 progressBar1.Value = 1;
                 buttonPlay.Enabled = true;
@@ -72,16 +73,29 @@ namespace AudioBook1
                 var current = speech.GetCurrentlySpokenPrompt();
                 if (current != null)
                     speech.SpeakAsyncCancel(current);
-                FileName = listViewPdfs.SelectedItems[currentindex].Text;
-                PdfReader reader = new PdfReader(FileName);
+                FileName = listViewPdfs.SelectedItems[currentIndex].Text;
+                PdfReader reader1 = new PdfReader(FileName);
                 ConvertPDFtoImage(1);
-                AllText = PdfTextExtractor.GetTextFromPage(reader, index);
-                reader.Close();
+                AllText = PdfTextExtractor.GetTextFromPage(reader1, index);
+                reader1.Close();
             }
             catch (Exception)
             {
-        
+                try
+                {
+                    FileName = listViewPdfs.SelectedItems[currentIndex].Text;
+                    PdfReader reader = new PdfReader(FileName);
+                    ConvertPDFtoImage(1);
+                    AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+                    reader.Close();
+                }
+                catch (Exception)
+                {
+
+                }
+
             }
+
 
         }
         int index = 1;
@@ -168,6 +182,41 @@ namespace AudioBook1
 
 
 
+        }
+        int currentIndex = 0;
+        private void listViewPdfs_MouseUp(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void listViewPdfs_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                var visualItem = listViewPdfs.GetItemAt(e.Location.X, e.Location.Y);
+                if (visualItem == null) return;
+                var index = listViewPdfs.Items.IndexOf(visualItem);
+                currentIndex = index;
+            }
+            try
+            {
+                timer.Stop();
+                progressBar1.Value = 1;
+                buttonPlay.Enabled = true;
+                buttonPre.Enabled = true;
+                buttonNext.Enabled = true;
+                var current = speech.GetCurrentlySpokenPrompt();
+                if (current != null)
+                    speech.SpeakAsyncCancel(current);
+                FileName = listViewPdfs.SelectedItems[currentIndex].Text;
+                PdfReader reader = new PdfReader(FileName);
+                ConvertPDFtoImage(1);
+                AllText = PdfTextExtractor.GetTextFromPage(reader, index);
+                reader.Close();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

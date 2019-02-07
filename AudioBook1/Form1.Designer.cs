@@ -51,7 +51,8 @@
             this.listViewPdfs.SelectedIndexChanged += new System.EventHandler(this.listViewPdfs_SelectedIndexChanged);
             this.listViewPdfs.DragDrop += new System.Windows.Forms.DragEventHandler(this.listViewPdfs_DragDrop);
             this.listViewPdfs.DragEnter += new System.Windows.Forms.DragEventHandler(this.listViewPdfs_DragEnter);
-           
+            this.listViewPdfs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewPdfs_MouseClick);
+            this.listViewPdfs.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listViewPdfs_MouseUp);
             // 
             // pictureBox1
             // 
